@@ -12,36 +12,45 @@ contract Step2_FillOrder is Script {
     function run() external {
         uint256 solverPrivateKey = vm.envUint("SOLVER_PRIVATE_KEY");
         address solver = vm.addr(solverPrivateKey);
-        address user = vm.addr(vm.envUint("USER_PRIVATE_KEY"));
-        
-        // You need to update this with the order ID from Step 1
-        bytes32 orderId = 0x1e2ea3d9eae653c8f502001f236d2bd467cef329dea6f78c90f85eee75a32265;
         
         console.log("=== STEP 2: FILL ORDER ON DESTINATION CHAIN ===");
         console.log("Solver:", solver);
-        console.log("User:", user);
         console.log("Chain ID:", block.chainid);
+        
+        // Read order data from Step1
+        string memory jsonData = vm.readFile("order_data.json");
+        
+        // Parse key values from JSON (simplified parsing for this demo)
+        bytes32 orderId = vm.parseJsonBytes32(jsonData, ".orderInfo.orderId");
+        address user = vm.parseJsonAddress(jsonData, ".orderInfo.user");
+        uint256 outputAmount = vm.parseJsonUint(jsonData, ".orderInfo.outputAmount");
+        
+        // Parse destination chain addresses
+        address coinFillerAddr = vm.parseJsonAddress(jsonData, ".contractAddresses.destinationChain.coinFiller");
+        address destinationTokenAddr = vm.parseJsonAddress(jsonData, ".contractAddresses.destinationChain.destinationToken");
+        address remoteOracleAddr = vm.parseJsonAddress(jsonData, ".contractAddresses.destinationChain.remoteOracle");
+        
+        console.log("User:", user);
         console.log("Order ID:", vm.toString(orderId));
+        console.log("Output Amount:", outputAmount / 10**18);
         
         vm.startBroadcast(solverPrivateKey);
         
-        // Destination chain contract addresses
-        CoinFiller coinFiller = CoinFiller(0x5FbDB2315678afecb367f032d93F642f64180aa3);
-        MockERC20 destinationToken = MockERC20(0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9);
-        
-        uint256 outputAmount = 99 * 10**18;  // 99 tokens
+        // Destination chain contracts
+        CoinFiller coinFiller = CoinFiller(coinFillerAddr);
+        MockERC20 destinationToken = MockERC20(destinationTokenAddr);
         
         // Ensure solver has tokens and approve CoinFiller
         destinationToken.mint(solver, outputAmount);
         destinationToken.approve(address(coinFiller), outputAmount);
         console.log("Solver minted and approved", outputAmount / 10**18, "tokens");
         
-        // Create the output structure
+        // Create the output structure using data from JSON
         MandateOutput memory output = MandateOutput({
-            remoteOracle: bytes32(uint256(uint160(0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512))),
-            remoteFiller: bytes32(uint256(uint160(0x5FbDB2315678afecb367f032d93F642f64180aa3))),
-            chainId: 1338,
-            token: bytes32(uint256(uint160(0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9))),
+            remoteOracle: bytes32(uint256(uint160(remoteOracleAddr))),
+            remoteFiller: bytes32(uint256(uint160(coinFillerAddr))),
+            chainId: vm.parseJsonUint(jsonData, ".contractAddresses.destinationChain.chainId"),
+            token: bytes32(uint256(uint160(destinationTokenAddr))),
             amount: outputAmount,
             recipient: bytes32(uint256(uint160(user))),
             remoteCall: hex"",

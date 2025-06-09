@@ -163,11 +163,15 @@ coinFiller.fill(
 ### 3. Finalization (Origin Chain)
 ```solidity
 // After oracle confirms the fill, solver gets input tokens
-settlerCompact.finaliseSelf(
+bytes32[] memory solvers = new bytes32[](1);
+solvers[0] = solverIdentifier;
+settlerCompact.finalise(
     order,
     signatures,
     timestamps,
-    solverIdentifier
+    solvers,
+    solverIdentifier, // destination - send to solver
+    hex""            // empty call data
 );
 ```
 
@@ -257,22 +261,25 @@ When moving beyond testing:
 // Create order identifier
 function orderIdentifier(StandardOrder calldata order) external view returns (bytes32);
 
-// Finalize order (self)
-function finaliseSelf(
+// Finalize order
+function finalise(
     StandardOrder calldata order,
     bytes calldata signatures,
     uint32[] calldata timestamps,
-    bytes32 solver
-) external;
-
-// Finalize order (to specific destination)
-function finaliseTo(
-    StandardOrder calldata order,
-    bytes calldata signatures,
-    uint32[] calldata timestamps,
-    bytes32 solver,
+    bytes32[] memory solvers,
     bytes32 destination,
     bytes calldata call
+) external;
+
+// Finalize order with signature (for cross-chain)
+function finaliseWithSignature(
+    StandardOrder calldata order,
+    bytes calldata signatures,
+    uint32[] calldata timestamps,
+    bytes32[] memory solvers,
+    bytes32 destination,
+    bytes calldata call,
+    bytes calldata orderOwnerSignature
 ) external;
 ```
 
