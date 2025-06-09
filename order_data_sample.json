@@ -1,0 +1,49 @@
+{
+  "orderInfo": {
+    "orderId": "0x1e2ea3d9eae653c8f502001f236d2bd467cef329dea6f78c90f85eee75a32265",
+    "user": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "solver": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "inputAmount": "100000000000000000000",
+    "outputAmount": "99000000000000000000",
+    "tokenId": "232173931049414487598928205764542517475099722052565410375093941968804628563"
+  },
+  "signatures": {
+    "sponsorSignature": "0x1234567890abcdef...full_signature_hex"
+  },
+  "contractAddresses": {
+    "originChain": {
+      "chainId": "1337",
+      "theCompact": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "settlerCompact": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "originToken": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+      "localOracle": "0x0165878A594ca255338adfa4d48449f69242Eb8F"
+    },
+    "destinationChain": {
+      "chainId": "1338",
+      "coinFiller": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      "remoteOracle": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+      "destinationToken": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
+    }
+  },
+  "orderDetails": {
+    "nonce": 0,
+    "originChainId": 1337,
+    "expires": 4294967295,
+    "fillDeadline": 4294967295,
+    "inputs": [
+      [232173931049414487598928205764542517475099722052565410375093941968804628563, 100000000000000000000]
+    ],
+    "outputs": [
+      {
+        "remoteOracle": "0x000000000000000000000000e7f1725e7734ce288f8367e1bb143e90bb3f0512",
+        "remoteFiller": "0x0000000000000000000000005fbdb2315678afecb367f032d93f642f64180aa3",
+        "chainId": 1338,
+        "token": "0x000000000000000000000000cf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+        "amount": 99000000000000000000,
+        "recipient": "0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "remoteCall": "0x",
+        "fulfillmentContext": "0x"
+      }
+    ]
+  }
+} 
