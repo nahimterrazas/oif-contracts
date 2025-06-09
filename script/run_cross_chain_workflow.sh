@@ -73,7 +73,7 @@ cleanup() {
 # Trap to cleanup on script exit
 trap cleanup EXIT
 
-print_step "Starting Catalyst Intent Cross-Chain Deployment Automation"
+print_step "Starting Catalyst Intent Cross-Chain Workflow Automation"
 
 # Step 1: Check if ports are available
 print_step "Checking if ports 8545 and 8546 are available..."
@@ -148,7 +148,7 @@ else
     exit 1
 fi
 
-print_success "🎉 Full deployment and execution completed successfully!"
+print_success "🎉 Cross-chain workflow completed successfully!"
 print_step "Origin Chain RPC: http://127.0.0.1:8545 (Chain ID: 31337)"
 print_step "Destination Chain RPC: http://127.0.0.1:8546 (Chain ID: 31338)"
 print_warning "Press Ctrl+C to stop the Anvil instances when you're done testing."

@@ -47,7 +47,7 @@ SOLVER_PRIVATE_KEY=0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b7
 
 ```
 script/
-├── run_full_deployment.sh        # Automated full workflow
+├── run_cross_chain_workflow.sh   # Automated cross-chain workflow
 ├── Step1_CreateOrder.s.sol       # Creates order on origin chain
 ├── Step2_FillOrder.s.sol         # Fills order on destination chain
 ├── Step3_FinalizeOrder.s.sol     # Finalizes order on origin chain
@@ -60,7 +60,7 @@ script/
 
 **Single Command Execution:**
 ```bash
-./script/run_full_deployment.sh
+./script/run_cross_chain_workflow.sh
 ```
 
 **What it does:**
@@ -252,8 +252,8 @@ If you encounter issues:
 **Quick Start:**
 ```bash
 # Make script executable (first time only)
-chmod +x script/run_full_deployment.sh
+chmod +x script/run_cross_chain_workflow.sh
 
 # Run everything
-./script/run_full_deployment.sh
+./script/run_cross_chain_workflow.sh
 ``` 
